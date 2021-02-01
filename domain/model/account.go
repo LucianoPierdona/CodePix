@@ -1,4 +1,10 @@
-import model
+package model
+
+import (
+	"github.com/asaskevich/govalidator"
+	"time"
+	uuid "github.com/satori/go.uuid"
+)
 
 type Account struct {
 	Base 			`valid:"required"`
@@ -8,7 +14,7 @@ type Account struct {
 }
 
 func (account *Account) isValid() error {
-	_, err := govalidator.ValidateStruct(bank)
+	_, err := govalidator.ValidateStruct(account)
 	if (err != nil) {
 		return err
 	}
@@ -17,8 +23,9 @@ func (account *Account) isValid() error {
 
 func newAccount(bank *Bank, number string, ownerName string) (*Account, error) {
 	account := Account{
-		Code: code,
-		Name: name
+		OwnerName: ownerName
+		Bank: bank,
+		Number: number
 	}
 
 	account.ID = uuid.NewV4().String()
