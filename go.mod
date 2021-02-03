@@ -1,3 +1,3 @@
-module github.com/codeedu/imersao/codepix-go
+module github.com/LucianoPierdona/CodePix
 
 go 1.15

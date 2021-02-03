@@ -1,61 +1,63 @@
 package model
 
 import (
-	"github.com/asaskevich/govalidator"
-	"time"
-	uuid "github.com/satori/go.uuid"
 	"errors"
+	"github.com/asaskevich/govalidator"
+	uuid "github.com/satori/go.uuid"
+	"time"
 )
 
-type PixKey struct {
-	Base 			`valid:"required"`
-	Kind 			string `json:"kind" valid:"notnull"`
-	Key 			string `json:"key" valid:"notnull"`
-	AccountID string `json:"account_id" valid:"notnull"`
-	Account *Account `valid:"-"`
-	Status string `json:"status" valid:"notnull"`
-}
-
 type PixKeyRepositoryInterface interface {
-	Register(pixKey *PixKey) (*PixKey, error)
+	RegisterKey(pixKey *PixKey) (*PixKey, error)
 	FindKeyByKind(key string, kind string) (*PixKey, error)
 	AddBank(bank *Bank) error
 	AddAccount(account *Account) error
 	FindAccount(id string) (*Account, error)
 }
 
-func (pixKey *pixKey) isValid() error {
-	_, err := govalidator.ValidateStruct(pixKey)
+func init() {
+	govalidator.SetFieldsRequiredByDefault(true)
+}
 
-	if pixKey.Kind != "email" && pixKey.Kind != "cpf" {
+type PixKey struct {
+	Base      `valid:"required"`
+	Kind      string   `json:"kind" gorm:"type:varchar(20)" valid:"notnull"`
+	Key       string   `json:"key" gorm:"type:varchar(255)" valid:"notnull"`
+	AccountID string   `gorm:"column:account_id;type:uuid;not null" valid:"-"`
+	Account   *Account `valid:"-"`
+	Status    string   `json:"status" gorm:"type:varchar(20)" valid:"notnull"`
+}
+
+func (p *PixKey) isValid() error {
+	_, err := govalidator.ValidateStruct(p)
+
+	if p.Kind != "email" && p.Kind != "cpf" {
 		return errors.New("invalid type of key")
 	}
 
-	if pixKey.Status != "active" && pixKey.Status != "inactive" {
+	if p.Status != "active" && p.Status != "inactive" {
 		return errors.New("invalid status")
 	}
 
-	if (err != nil) {
+	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func newPixKey(kind string, account *Account, key string) (*PixKey, error) {
+func NewPixKey(kind string, account *Account, key string) (*PixKey, error) {
 	pixKey := PixKey{
-		Kind: kind,
-		Key: key,
-		Account: account,
-		Status: "active"
+		Kind:      kind,
+		Key:       key,
+		Account:   account,
+		AccountID: account.ID,
+		Status:    "active",
 	}
-
 	pixKey.ID = uuid.NewV4().String()
-	pixKey.createdAt = time.now()
-
+	pixKey.CreatedAt = time.Now()
 	err := pixKey.isValid()
 	if err != nil {
 		return nil, err
 	}
-
 	return &pixKey, nil
 }
