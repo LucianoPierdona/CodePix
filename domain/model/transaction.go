@@ -91,6 +91,8 @@ func NewTransaction(accountFrom *Account, amount float64, pixKeyTo *PixKey, desc
 	err := transaction.isValid()
 	if err != nil {
 		return nil, err
+	} else {
+		transaction.ID = id
 	}
 	return &transaction, nil
 }
