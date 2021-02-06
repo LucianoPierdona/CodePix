@@ -17,3 +17,4 @@ data:
     KAFKA_CLIENT_ID=codepix
     KAFKA_BROKER=kafka:9092
     KAFKA_CONSUMER_GROUP_ID=bank001
+    BANK_CODE=001

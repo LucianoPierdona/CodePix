@@ -1,32 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bankapi
+  name: bankfrontend
 spec:
   selector:
     matchLabels:
-      app: bankapi
+      app: bankfrontend
   template:
     metadata:
       labels:
-        app: bankapi
+        app: bankfrontend
     spec:
       containers:
-        - name: bankapi
-          image: lucianopierdona/bankapi:latest
+        - name: bankfrontend
+          image: lucianopierdona/bankfrontend:latest
           ports:
             - containerPort: 3000
-          envFrom:
-            - secretRef:
-                name: bankapi-secret
           volumeMounts:
-            - name: bankapi-volume
-              mountPath: /home/node/app/.env
+            - name: bankfrontend-volume
+              mountPath: /app/.env
               subPath: .env
       volumes:
-        - name: bankapi-volume
+        - name: bankfrontend-volume
           configMap:
-            name: bankapi-conf
+            name: bankfrontend-conf
             items:
               - key: env
                 path: .env
