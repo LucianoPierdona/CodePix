@@ -16,4 +16,5 @@ The following tools were used in this project:
 - [Golang](https://golang.org/)
 - [Next.js](https://nextjs.org/)
 - [Docker](https://www.docker.com/)
+- [Sass](https://sass-lang.com/)
 - [Microservices]()
