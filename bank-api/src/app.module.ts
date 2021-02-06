@@ -4,10 +4,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MyFirstController } from './controllers/my-first/my-first.controller';
-import { BankAccount } from './models/bank-account';
+import { BankAccount } from './models/bank-account.model';
 import { BankAccountController } from './controllers/bank-account/bank-account.controller';
 import { ConsoleModule } from 'nestjs-console';
 import { FixturesCommand } from './fixtures/fixtures.command';
+import { PixKey } from './models/pix-key.model';
 
 @Module({
   imports: [
@@ -20,9 +21,9 @@ import { FixturesCommand } from './fixtures/fixtures.command';
       username: process.env.TYPEORM_USERNAME,
       password: process.env.TYPEORM_PASSWORD,
       database: process.env.TYPEORM_DATABASE,
-      entities: [BankAccount],
+      entities: [BankAccount, PixKey],
     }),
-    TypeOrmModule.forFeature([BankAccount]),
+    TypeOrmModule.forFeature([BankAccount, PixKey]),
   ],
   controllers: [AppController, MyFirstController, BankAccountController],
   providers: [AppService, FixturesCommand],
