@@ -7,10 +7,13 @@ import { BankAccount } from './models/bank-account.model';
 import { BankAccountController } from './controllers/bank-account/bank-account.controller';
 import { ConsoleModule } from 'nestjs-console';
 import { FixturesCommand } from './fixtures/fixtures.command';
+import { PixKeyController } from './controllers/pix-key/pix-key.controller';
 import { PixKey } from './models/pix-key.model';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { join } from 'path';
-import { Transaction } from 'typeorm';
+import { TransactionController } from './controllers/transaction/transaction.controller';
+import { Transaction } from './models/transaction.model';
+import { TransactionSubscriber } from './subscribers/transaction-subscriber/transaction-subscriber.service';
 
 @Module({
   imports: [
@@ -37,8 +40,32 @@ import { Transaction } from 'typeorm';
         },
       },
     ]),
+    ClientsModule.register([
+      {
+        name: 'TRANSACTION_SERVICE',
+        transport: Transport.KAFKA,
+        options: {
+          client: {
+            clientId: process.env.KAFKA_CLIENT_ID,
+            brokers: [process.env.KAFKA_BROKER],
+          },
+          consumer: {
+            groupId:
+              !process.env.KAFKA_CONSUMER_GROUP_ID ||
+              process.env.KAFKA_CONSUMER_GROUP_ID === ''
+                ? 'my-consumer-' + Math.random()
+                : process.env.KAFKA_CONSUMER_GROUP_ID,
+          },
+        },
+      },
+    ]),
   ],
-  controllers: [AppController, BankAccountController],
-  providers: [AppService, FixturesCommand],
+  controllers: [
+    AppController,
+    BankAccountController,
+    PixKeyController,
+    TransactionController,
+  ],
+  providers: [AppService, FixturesCommand, TransactionSubscriber],
 })
 export class AppModule {}
