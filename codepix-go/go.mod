@@ -1,4 +1,4 @@
-module github.com/LucianoPierdona/CodePix
+module github.com/LucianoPierdona/CodePix/codepix-go
 
 go 1.15
 
