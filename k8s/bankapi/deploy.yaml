@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bankapi
+spec:
+  selector:
+    matchLabels:
+      app: bankapi
+  template:
+    metadata:
+      labels:
+        app: bankapi
+    spec:
+      containers:
+        - name: bankapi
+          image: lucianopierdona/bankapi:latest
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - secretRef:
+                name: bankapi-secret
+          volumeMounts:
+            - name: bankapi-volume
+              mountPath: /go/src/.env
+              subPath: .env
+      volumes:
+        - name: bankapi-volume
+          configMap:
+            name: bankapi-conf
+            items:
+              - key: env
+                path: .env
