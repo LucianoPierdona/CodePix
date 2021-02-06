@@ -16,9 +16,11 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
-
+	"github.com/LucianoPierdona/CodePix/codepix-go/application/kafka"
+	"github.com/LucianoPierdona/CodePix/codepix-go/infrastructure/db"
+	ckafka "github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/spf13/cobra"
+	"os"
 )
 
 // kafkaCmd represents the kafka command
@@ -30,6 +32,7 @@ var kafkaCmd = &cobra.Command{
 		database := db.ConnectDB(os.Getenv("env"))
 		producer := kafka.NewKafkaProducer()
 
+		//kafka.Publish("Ola Cosumer", "teste", producer, deliveryChan)
 		go kafka.DeliveryReport(deliveryChan)
 
 		kafkaProcessor := kafka.NewKafkaProcessor(database, producer, deliveryChan)
