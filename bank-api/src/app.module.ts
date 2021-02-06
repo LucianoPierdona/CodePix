@@ -3,7 +3,6 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { MyFirstController } from './controllers/my-first/my-first.controller';
 import { BankAccount } from './models/bank-account.model';
 import { BankAccountController } from './controllers/bank-account/bank-account.controller';
 import { ConsoleModule } from 'nestjs-console';
@@ -39,7 +38,7 @@ import { Transaction } from 'typeorm';
       },
     ]),
   ],
-  controllers: [AppController, MyFirstController, BankAccountController],
+  controllers: [AppController, BankAccountController],
   providers: [AppService, FixturesCommand],
 })
 export class AppModule {}
