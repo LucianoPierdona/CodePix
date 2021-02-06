@@ -1,7 +1,7 @@
 package db
 
 import (
-	"github.com/LucianoPierdona/CodePix/domain/model"
+	"github.com/LucianoPierdona/CodePix/codepix-go/domain/model"
 	"log"
 	"os"
 	"path/filepath"

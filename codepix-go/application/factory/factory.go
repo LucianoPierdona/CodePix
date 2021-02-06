@@ -1,8 +1,8 @@
 package factory
 
 import (
-	"github.com/codeedu/imersao/codepix-go/application/usecase"
-	"github.com/codeedu/imersao/codepix-go/infrastructure/repository"
+	"github.com/LucianoPierdona/CodePix/codepix-go/application/usecase"
+	"github.com/LucianoPierdona/CodePix/codepix-go/infrastructure/repository"
 	"github.com/jinzhu/gorm"
 )
 
