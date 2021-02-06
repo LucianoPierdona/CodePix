@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
   name: 'bank_accounts',
 })
 export class BankAccount {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()

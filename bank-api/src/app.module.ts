@@ -7,7 +7,7 @@ import { MyFirstController } from './controllers/my-first/my-first.controller';
 import { BankAccount } from './models/bank-account';
 import { BankAccountController } from './controllers/bank-account/bank-account.controller';
 import { ConsoleModule } from 'nestjs-console';
-import { FixturesCommand } from './controllers/fixtures/fixtures.command';
+import { FixturesCommand } from './fixtures/fixtures.command';
 
 @Module({
   imports: [
